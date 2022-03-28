@@ -71,10 +71,11 @@ int main (int argc, char *argv[]) {
   a5 = arv_constroi('c',a3,a4);
   a  = arv_constroi('a',a2,a5);
   arv_imprime(a);
+  printf("\n");
   scanf("%c",&c);
     p = arv_pertence(a,c);
-    if(p == 1) printf("\n %c p= %d pertence ao arvore\n",c,p);
-    else printf("\n %c P= %d Nao pertence ao arvore\n",c,p);
+    if(p == 1) printf("|-> %c pertence ao arvore\n",c);
+    else printf("|-> %c Nao pertence ao arvore\n",c);
   
   return 0;
 }
