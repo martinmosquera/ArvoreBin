@@ -74,40 +74,60 @@ char max_arvore(Arvore *a){
   if(a == NULL) return 0;
   char ini = a->info;
   char esq,dir;
-  if (a->esq != NULL)
-    esq = max_arvore(a->esq);
-  else esq = 0;
-  if(a->dir != NULL)
-    dir = max_arvore(a->dir);
-  else dir = 0;
+  esq = max_arvore(a->esq);
+  dir = max_arvore(a->dir);
 
   if((ini > esq) && (ini > dir)) return ini;
   if((esq > ini) && (esq > dir)) return esq;
   if((dir > ini) && (dir > ini)) return dir;
+}
+int altura_arvore(Arvore *a){
+  if(a == NULL) return 0;
+  int esq = altura_arvore(a->esq);
+  int dir = altura_arvore(a->dir);
+  if(esq > dir) return (esq +1);
+  else return (dir + 1);
+}
+
+int nos_folha_arvore(Arvore *a){
+  if(a == NULL) return 0;
+  if(a->dir == NULL && a->esq == NULL) return 1;
+  int esq = nos_folha_arvore(a->esq);
+  int dir = nos_folha_arvore(a->dir);  
+  return (esq + dir);
 }
 
 
 int main (int argc, char *argv[]) {
   Arvore *a, *a1, *a2, *a3, *a4, *a5;
   char c;
-  int p;
+  int p,f;
   a1 = arv_constroi('d',cria_arv_vazia(),cria_arv_vazia());
   a2 = arv_constroi('b',cria_arv_vazia(),a1);
   a3 = arv_constroi('e',cria_arv_vazia(),cria_arv_vazia());
   a4 = arv_constroi('f',cria_arv_vazia(),cria_arv_vazia());
   a5 = arv_constroi('c',a3,a4);
   a  = arv_constroi('a',a2,a5);
+  // imprime o arvore
   arv_imprime(a);
   printf("\n Digita um caracter: ");
   scanf("%c",&c);
   printf("o valor de %c e %d\n",c,c);
+  // retorna se um elemnto esta o no no arvore
   p = arv_pertence(a,c);
   if(p == 1) printf("|-> %c pertence ao arvore\n",c);
   else printf("|-> %c Nao pertence ao arvore\n",c);
+  // conta os nos do arvore
   p = conta_nos(a);
   printf("|-> %d nos em total\n",p);
+  // retorna o maximo valor do arvore
   c = max_arvore(a);
-  
-  printf("|-> O maximo valor no arvore e %c",c);
+  printf("|-> O maximo valor no arvore e %c\n",c);
+  // altura do arvore
+  p = altura_arvore(a);
+  printf("|-> A altura do arvore e : %d\n",p);
+  // nos que sao folha
+  f = nos_folha_arvore(a);
+  printf("|-> A quantidade de nos folha no arvore e : %d\n",f);
   return 0;
 }
