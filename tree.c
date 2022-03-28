@@ -18,6 +18,8 @@ int conta_nos(Arvore *a);
 char max_arvore(Arvore *a);
 int altura_arvore(Arvore *a);
 int nos_folha_arvore(Arvore *a);
+int eh_espelho(Arvore * arv_a, Arvore * arv_b);
+Arvore * cria_espelho(Arvore * arv_a);
 
 Arvore* cria_arv_vazia () {
    return NULL;
@@ -98,8 +100,22 @@ int nos_folha_arvore(Arvore *a){
 }
 
 
+int eh_espelho(Arvore * arv_a, Arvore * arv_b){
+  return 0;
+}
+
+Arvore * cria_espelho(Arvore * arv_a){
+  if(arv_a == NULL) return NULL;
+  int qtdNodos = conta_nos(arv_a);
+  Arvore *a = (Arvore*)malloc(sizeof(Arvore));
+  a->info = arv_a->info;
+  a->dir = cria_espelho(arv_a->esq);
+  a->esq = cria_espelho(arv_a->dir);
+  return a;
+}
+
 int main (int argc, char *argv[]) {
-  Arvore *a, *a1, *a2, *a3, *a4, *a5;
+  Arvore *a, *a1, *a2, *a3, *a4, *a5,*ae;
   char c;
   int p,f;
   a1 = arv_constroi('d',cria_arv_vazia(),cria_arv_vazia());
@@ -129,5 +145,13 @@ int main (int argc, char *argv[]) {
   // nos que sao folha
   f = nos_folha_arvore(a);
   printf("|-> A quantidade de nos folha no arvore e : %d\n",f);
+  //cria um arvore espelho
+  ae = cria_espelho(a);
+  printf("|-> Espelho: ");
+  arv_imprime(ae);
+  // verifica se o arvore e espelho
+  p = eh_espelho(a,ae);
+  if (p == 1) printf("|-> Sao arvores espelhados\n");
+  else printf("|-> Nao sao arvores espelhados\n");
   return 0;
 }
