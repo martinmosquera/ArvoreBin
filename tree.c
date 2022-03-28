@@ -13,7 +13,7 @@ Arvore*  arv_constroi (char c, Arvore* e, Arvore* d);
 int      verifica_arv_vazia (Arvore* a);
 Arvore*  arv_libera (Arvore* a);
 int      arv_pertence (Arvore* a, char c);
-void     arv_imprime (Arvore* a,int lv);
+void     arv_imprime (Arvore* a);
 
 Arvore* cria_arv_vazia (Arvore* a) {
   a->dir == NULL;
@@ -42,17 +42,16 @@ Arvore* arv_libera (Arvore* a) {
   return NULL;
 }
 
-void arv_imprime (Arvore* a, int lv){
-	if(!a) return;
-  if(lv == 0)
-  printf("< %c", a->info);
-  lv++;
-  if(a->esq != NULL) printf("< %c", a->esq->info);
-  else printf(">");
-  if(a->dir != NULL) printf("< %c", a->dir->info);
-	else printf(">");
-  arv_imprime(a->esq,lv);
-  arv_imprime(a->dir,lv);
+void arv_imprime (Arvore* a){
+	// if(!a) return;
+  if(a == NULL) {
+    printf(" <> ");
+    return;
+  }
+  printf(" < %c", a->info);
+  arv_imprime(a->esq);
+  arv_imprime(a->dir);
+  printf(" > ");  
 }
 
 
@@ -64,6 +63,6 @@ int main (int argc, char *argv[]) {
   a4 = arv_constroi('f',cria_arv_vazia(a4),cria_arv_vazia(a4));
   a5 = arv_constroi('c',a3,a4);
   a  = arv_constroi('a',a2,a5);
-  arv_imprime(a,0);
+  arv_imprime(a);
   return 0;
 }
