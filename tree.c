@@ -101,12 +101,17 @@ int nos_folha_arvore(Arvore *a){
 
 
 int eh_espelho(Arvore * arv_a, Arvore * arv_b){
-  return 0;
+    if(!arv_a && !arv_b) return 1;
+    int dir = eh_espelho(arv_a->dir,arv_b->esq);
+    int esq = eh_espelho(arv_a->esq,arv_b->dir);
+      
+    if(dir && esq && (arv_a->info == arv_b->info))
+      return 1;
+    else return 0;
 }
 
 Arvore * cria_espelho(Arvore * arv_a){
   if(arv_a == NULL) return NULL;
-  int qtdNodos = conta_nos(arv_a);
   Arvore *a = (Arvore*)malloc(sizeof(Arvore));
   a->info = arv_a->info;
   a->dir = cria_espelho(arv_a->esq);
@@ -151,7 +156,7 @@ int main (int argc, char *argv[]) {
   arv_imprime(ae);
   // verifica se o arvore e espelho
   p = eh_espelho(a,ae);
-  if (p == 1) printf("|-> Sao arvores espelhados\n");
-  else printf("|-> Nao sao arvores espelhados\n");
+  if (p == 1) printf("\n|-> Sao arvores espelhados\n");
+  else printf("\n|-> Nao sao arvores espelhados\n");
   return 0;
 }
