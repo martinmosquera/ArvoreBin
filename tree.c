@@ -14,6 +14,10 @@ int      verifica_arv_vazia (Arvore* a);
 Arvore*  arv_libera (Arvore* a);
 int      arv_pertence (Arvore* a, char c);
 void     arv_imprime (Arvore* a);
+int conta_nos(Arvore *a);
+char max_arvore(Arvore *a);
+int altura_arvore(Arvore *a);
+int nos_folha_arvore(Arvore *a);
 
 Arvore* cria_arv_vazia () {
    return NULL;
@@ -58,12 +62,35 @@ int arv_pertence(Arvore* a,char c){
   if(arv_pertence(a->dir,c)) return 1;
 }
 
+int conta_nos(Arvore *a){
+  if(a == NULL) return 0;
+  int dir, izq;
+  dir = conta_nos(a->dir);
+  izq = conta_nos(a->esq);
+  return (dir+izq+1);
+}
+
+char max_arvore(Arvore *a){
+  if(a == NULL) return 0;
+  char ini = a->info;
+  char esq,dir;
+  if (a->esq != NULL)
+    esq = max_arvore(a->esq);
+  else esq = 0;
+  if(a->dir != NULL)
+    dir = max_arvore(a->dir);
+  else dir = 0;
+
+  if((ini > esq) && (ini > dir)) return ini;
+  if((esq > ini) && (esq > dir)) return esq;
+  if((dir > ini) && (dir > ini)) return dir;
+}
+
 
 int main (int argc, char *argv[]) {
   Arvore *a, *a1, *a2, *a3, *a4, *a5;
   char c;
   int p;
-  int r = 0;
   a1 = arv_constroi('d',cria_arv_vazia(),cria_arv_vazia());
   a2 = arv_constroi('b',cria_arv_vazia(),a1);
   a3 = arv_constroi('e',cria_arv_vazia(),cria_arv_vazia());
@@ -71,11 +98,16 @@ int main (int argc, char *argv[]) {
   a5 = arv_constroi('c',a3,a4);
   a  = arv_constroi('a',a2,a5);
   arv_imprime(a);
-  printf("\n");
+  printf("\n Digita um caracter: ");
   scanf("%c",&c);
-    p = arv_pertence(a,c);
-    if(p == 1) printf("|-> %c pertence ao arvore\n",c);
-    else printf("|-> %c Nao pertence ao arvore\n",c);
+  printf("o valor de %c e %d\n",c,c);
+  p = arv_pertence(a,c);
+  if(p == 1) printf("|-> %c pertence ao arvore\n",c);
+  else printf("|-> %c Nao pertence ao arvore\n",c);
+  p = conta_nos(a);
+  printf("|-> %d nos em total\n",p);
+  c = max_arvore(a);
   
+  printf("|-> O maximo valor no arvore e %c",c);
   return 0;
 }
